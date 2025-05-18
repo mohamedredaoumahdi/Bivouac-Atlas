@@ -1,3 +1,4 @@
+import 'package:bivouac_atlas/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import '../models/activity.dart';
 import '../models/accommodation.dart';
@@ -17,58 +18,73 @@ class AccommodationScreen extends StatefulWidget {
 
 class _AccommodationScreenState extends State<AccommodationScreen> {
   Accommodation? selectedAccommodation;
+  
+  // Move accommodations list here as a late variable
+  late List<Accommodation> accommodations;
 
-  final List<Accommodation> accommodations = [
-    Accommodation(
-      title: 'Panoramic Cabin',
-      description: 'Located on a quiet hill, offering a stunning panoramic view of the mountains and valleys. Ideal for couples and those seeking tranquility.',
-      price: 40,
-      icon: Icons.landscape,
-      availability: '2 available',
-      type: AccommodationType.cabin,
-    ),
-    Accommodation(
-      title: 'Family Cabin',
-      description: 'Designed for families or groups, equipped with multiple beds and a comfortable seating area.',
-      price: 35,
-      icon: Icons.family_restroom,
-      availability: '2 available',
-      type: AccommodationType.cabin,
-    ),
-    Accommodation(
-      title: 'Eco-Nature Cabin',
-      description: 'Wooden cabins blending with nature, made from eco-friendly local materials, with a warm, traditional design.',
-      price: 30,
-      icon: Icons.eco,
-      availability: '2 available',
-      type: AccommodationType.cabin,
-    ),
-    Accommodation(
-      title: 'Traditional Berber Tent',
-      description: 'Inspired by Amazigh tents, featuring local furnishings and an authentic traditional atmosphere.',
-      price: 15,
-      icon: Icons.temple_buddhist,
-      availability: '6 available',
-      type: AccommodationType.tent,
-    ),
-    Accommodation(
-      title: 'Comfort Tent',
-      description: 'Equipped with comfortable pillows and more space, with curtains and light insulation for comfort.',
-      price: 20,
-      icon: Icons.night_shelter,
-      availability: '4 available',
-      type: AccommodationType.tent,
-    ),
-  ];
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    
+    // Initialize accommodations here where we have access to l10n
+    final l10n = AppLocalizations.of(context)!;
+    
+    accommodations = [
+      // Cabins
+      Accommodation(
+        title: l10n.panoramicCabin,
+        description: l10n.panoramicCabinDesc,
+        price: 40,
+        icon: Icons.landscape,
+        availability: '2 ${l10n.available}',
+        type: AccommodationType.cabin,
+      ),
+      Accommodation(
+        title: l10n.familyCabin,
+        description: l10n.familyCabinDesc,
+        price: 35,
+        icon: Icons.family_restroom,
+        availability: '2 ${l10n.available}',
+        type: AccommodationType.cabin,
+      ),
+      Accommodation(
+        title: l10n.ecoNatureCabin,
+        description: l10n.ecoNatureCabinDesc,
+        price: 30,
+        icon: Icons.eco,
+        availability: '2 ${l10n.available}',
+        type: AccommodationType.cabin,
+      ),
+      // Tents
+      Accommodation(
+        title: l10n.traditionalBerberTent,
+        description: l10n.traditionalBerberTentDesc,
+        price: 15,
+        icon: Icons.temple_buddhist,
+        availability: '6 ${l10n.available}',
+        type: AccommodationType.tent,
+      ),
+      Accommodation(
+        title: l10n.comfortTent,
+        description: l10n.comfortTentDesc,
+        price: 20,
+        icon: Icons.night_shelter,
+        availability: '4 ${l10n.available}',
+        type: AccommodationType.tent,
+      ),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     final cabins = accommodations.where((a) => a.type == AccommodationType.cabin).toList();
     final tents = accommodations.where((a) => a.type == AccommodationType.tent).toList();
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Choose Accommodation'),
+        title: Text(l10n.chooseAccommodation),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -93,9 +109,9 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'Selected Activity:',
-                            style: TextStyle(
+                          Text(
+                            '${l10n.selectedActivity}:',
+                            style: const TextStyle(
                               fontSize: 14,
                               color: Color(0xFF666666),
                             ),
@@ -126,30 +142,30 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
             const SizedBox(height: 24),
             
             // Cabins Section
-            const Text(
-              'Cabins',
-              style: TextStyle(
+            Text(
+              l10n.cabins,
+              style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
                 color: Color(0xFF333333),
               ),
             ),
             const SizedBox(height: 16),
-            ...cabins.map((accommodation) => _buildAccommodationCard(accommodation)),
+            ...cabins.map((accommodation) => _buildAccommodationCard(accommodation, l10n)),
             
             const SizedBox(height: 32),
             
             // Tents Section
-            const Text(
-              'Tents',
-              style: TextStyle(
+            Text(
+              l10n.tents,
+              style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
                 color: Color(0xFF333333),
               ),
             ),
             const SizedBox(height: 16),
-            ...tents.map((accommodation) => _buildAccommodationCard(accommodation)),
+            ...tents.map((accommodation) => _buildAccommodationCard(accommodation, l10n)),
             
             const SizedBox(height: 24),
             
@@ -160,17 +176,17 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
                 color: const Color(0xFF4CAF50).withOpacity(0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: const Row(
+              child: Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.info_outline,
                     color: Color(0xFF4CAF50),
                   ),
-                  SizedBox(width: 12),
+                  const SizedBox(width: 12),
                   Expanded(
                     child: Text(
-                      'All accommodations include a fresh local breakfast.',
-                      style: TextStyle(
+                      l10n.accommodationNotice,
+                      style: const TextStyle(
                         fontSize: 14,
                         color: Color(0xFF333333),
                       ),
@@ -199,7 +215,7 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
                     padding: const EdgeInsets.symmetric(vertical: 16),
                   ),
                   child: Text(
-                    'Continue with ${selectedAccommodation!.title}',
+                    '${l10n.continueWith} ${selectedAccommodation!.title}',
                     style: const TextStyle(fontSize: 18),
                   ),
                 ),
@@ -210,7 +226,7 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
     );
   }
 
-  Widget _buildAccommodationCard(Accommodation accommodation) {
+  Widget _buildAccommodationCard(Accommodation accommodation, AppLocalizations l10n) {
     final isSelected = selectedAccommodation == accommodation;
     
     return Card(
@@ -284,9 +300,9 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
                                 : const Color(0xFF333333),
                           ),
                         ),
-                        const Text(
-                          'per night',
-                          style: TextStyle(
+                        Text(
+                          l10n.perNight,
+                          style: const TextStyle(
                             fontSize: 12,
                             color: Color(0xFF666666),
                           ),
@@ -323,9 +339,9 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
                       color: const Color(0xFF4CAF50).withOpacity(0.1),
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    child: const Text(
-                      'Selected',
-                      style: TextStyle(
+                    child: Text(
+                      l10n.selected,
+                      style: const TextStyle(
                         fontSize: 12,
                         color: Color(0xFF4CAF50),
                         fontWeight: FontWeight.bold,
