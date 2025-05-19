@@ -134,11 +134,11 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get selected => 'Selected';
 
-  // Accommodation Names
+  // Accommodation Names (updated with new cabins)
   @override
-  String get panoramicCabin => 'Panoramic Cabin';
+  String get panoramicCabin => 'Atlas Serenity Cabin';
   @override
-  String get familyCabin => 'Family Cabin';
+  String get familyCabin => 'Mountain Breeze Lodge';
   @override
   String get ecoNatureCabin => 'Eco-Nature Cabin';
   @override
@@ -146,11 +146,11 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get comfortTent => 'Comfort Tent';
 
-  // Accommodation Descriptions
+  // Accommodation Descriptions (updated with new descriptions)
   @override
-  String get panoramicCabinDesc => 'Located on a quiet hill, offering a stunning panoramic view of the mountains and valleys. Ideal for couples and those seeking tranquility.';
+  String get panoramicCabinDesc => 'A stylish cabin ideal for couples or solo travelers seeking comfort and tranquility amidst the natural beauty of Ait Bouguemez. Features a luxurious double bed, air conditioning, small dining table, TV, Wi-Fi, complimentary breakfast, and panoramic views of the surrounding mountains and fields.';
   @override
-  String get familyCabinDesc => 'Designed for families or groups, equipped with multiple beds and a comfortable seating area.';
+  String get familyCabinDesc => 'Ideal for families or friends seeking a group retreat in the heart of unspoiled nature. Includes 3 comfortable beds, air conditioning, dining table, TV, internet, complimentary breakfast, and stunning views of the Ait Bouguemez valleys.';
   @override
   String get ecoNatureCabinDesc => 'Wooden cabins blending with nature, made from eco-friendly local materials, with a warm, traditional design.';
   @override

@@ -30,52 +30,63 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
     final l10n = AppLocalizations.of(context)!;
     
     accommodations = [
-      // Cabins
+      // Updated Cabins
       Accommodation(
-        title: l10n.panoramicCabin,
-        description: l10n.panoramicCabinDesc,
+        title: 'Atlas Serenity Cabin',
+        description: 'A stylish cabin ideal for couples or solo travelers seeking comfort and tranquility amidst the natural beauty of Ait Bouguemez. Features a luxurious double bed, air conditioning, small dining table, TV, Wi-Fi, complimentary breakfast, and panoramic views of the surrounding mountains and fields.',
         price: 40,
         icon: Icons.landscape,
         availability: '2 ${l10n.available}',
         type: AccommodationType.cabin,
-        imagePath: 'assets/images/cabins/CA1.jpeg',
+        imagePaths: [
+          'assets/images/cabins/Atlas_Serenity_Cabin_00.jpg',
+          'assets/images/cabins/Atlas_Serenity_Cabin_01.jpg',
+          'assets/images/cabins/Atlas_Serenity_Cabin_02.jpg',
+        ],
       ),
       Accommodation(
-        title: l10n.familyCabin,
-        description: l10n.familyCabinDesc,
-        price: 35,
+        title: 'Mountain Breeze Lodge',
+        description: 'Ideal for families or friends seeking a group retreat in the heart of unspoiled nature. Includes 3 comfortable beds, air conditioning, dining table, TV, internet, complimentary breakfast, and stunning views of the Ait Bouguemez valleys.',
+        price: 50,
         icon: Icons.family_restroom,
         availability: '2 ${l10n.available}',
         type: AccommodationType.cabin,
-        imagePath: 'assets/images/cabins/CA2.jpeg',
+        imagePaths: [
+          'assets/images/cabins/Mountain_Breeze_Lodge_00.jpg',
+          'assets/images/cabins/Mountain_Breeze_Lodge_01.jpg',
+          'assets/images/cabins/Mountain_Breeze_Lodge_02.jpg',
+        ],
       ),
+      // Updated Tents
       Accommodation(
-        title: l10n.ecoNatureCabin,
-        description: l10n.ecoNatureCabinDesc,
-        price: 30,
-        icon: Icons.eco,
-        availability: '2 ${l10n.available}',
-        type: AccommodationType.cabin,
-        imagePath: 'assets/images/cabins/CA3.jpeg',
-      ),
-      // Tents
-      Accommodation(
-        title: l10n.traditionalBerberTent,
-        description: l10n.traditionalBerberTentDesc,
-        price: 15,
+        title: 'Berber Dream Tent',
+        description: 'A traditional tent with a design inspired by Berber heritage, offering you the warmth of Moroccan hospitality in a unique natural setting. Includes a large double bed, small table, stunning view of the Ait Bouguemez Mountains, and complimentary breakfast.',
+        price: 25,
         icon: Icons.temple_buddhist,
-        availability: '6 ${l10n.available}',
+        availability: '5 ${l10n.available}',
         type: AccommodationType.tent,
-        imagePath: 'assets/images/tents/TN01.png',
+        imagePaths: [
+          'assets/images/tents/Berber_Dream_Tent_00.jpg',
+          'assets/images/tents/Berber_Dream_Tent_01.jpg',
+          'assets/images/tents/Berber_Dream_Tent_02.jpg',
+          'assets/images/tents/Berber_Dream_Tent_03.jpg',
+          'assets/images/tents/Berber_Dream_Tent_04.jpg',
+        ],
       ),
       Accommodation(
-        title: l10n.comfortTent,
-        description: l10n.comfortTentDesc,
-        price: 20,
+        title: 'Atlas Family Tent',
+        description: 'Ideal for groups or families seeking a comfortable and authentic camping experience. Includes 3 beds, small table, view of the Atlas Mountains, and complimentary breakfast.',
+        price: 35,
         icon: Icons.night_shelter,
-        availability: '4 ${l10n.available}',
+        availability: '5 ${l10n.available}',
         type: AccommodationType.tent,
-        imagePath: 'assets/images/tents/TN02.jpeg',
+        imagePaths: [
+          'assets/images/tents/Atlas_Family_Tent_00.jpg',
+          'assets/images/tents/Atlas_Family_Tent_01.jpg',
+          'assets/images/tents/Atlas_Family_Tent_02.jpg',
+          'assets/images/tents/Atlas_Family_Tent_03.jpg',
+          'assets/images/tents/Atlas_Family_Tent_04.jpg',
+        ],
       ),
     ];
   }
@@ -278,124 +289,9 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Accommodation Image
-              if (accommodation.imagePath != null)
-                ClipRRect(
-                  borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(12),
-                  ),
-                  child: Container(
-                    height: 180,
-                    width: double.infinity,
-                    child: Stack(
-                      children: [
-                        Image.asset(
-                          accommodation.imagePath!,
-                          width: double.infinity,
-                          height: double.infinity,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Container(
-                              color: const Color(0xFF4CAF50).withOpacity(0.1),
-                              child: Icon(
-                                accommodation.icon,
-                                size: 60,
-                                color: const Color(0xFF4CAF50),
-                              ),
-                            );
-                          },
-                        ),
-                        // Gradient overlay for better text readability
-                        Container(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                                Colors.transparent,
-                                Colors.black.withOpacity(0.1),
-                              ],
-                            ),
-                          ),
-                        ),
-                        // Price tag overlay
-                        Positioned(
-                          top: 12,
-                          right: 12,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 6,
-                            ),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF388E3C),
-                              borderRadius: BorderRadius.circular(16),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.3),
-                                  spreadRadius: 1,
-                                  blurRadius: 4,
-                                  offset: const Offset(0, 2),
-                                ),
-                              ],
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  '\$${accommodation.price}',
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                Text(
-                                  '/${l10n.perNight}',
-                                  style: const TextStyle(
-                                    fontSize: 10,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        // Availability tag
-                        Positioned(
-                          bottom: 12,
-                          left: 12,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 4,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.9),
-                              borderRadius: BorderRadius.circular(12),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
-                                  spreadRadius: 1,
-                                  blurRadius: 2,
-                                  offset: const Offset(0, 1),
-                                ),
-                              ],
-                            ),
-                            child: Text(
-                              accommodation.availability,
-                              style: const TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xFF4CAF50),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+              // Accommodation Image Carousel
+              if (accommodation.imagePaths != null && accommodation.imagePaths!.isNotEmpty)
+                _buildImageCarousel(accommodation, l10n),
               // Accommodation Details
               Padding(
                 padding: const EdgeInsets.all(16),
@@ -432,7 +328,7 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
                                   color: Color(0xFF333333),
                                 ),
                               ),
-                              if (accommodation.imagePath == null)
+                              if (accommodation.imagePaths == null || accommodation.imagePaths!.isEmpty)
                                 Text(
                                   accommodation.availability,
                                   style: const TextStyle(
@@ -443,7 +339,7 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
                             ],
                           ),
                         ),
-                        if (accommodation.imagePath == null)
+                        if (accommodation.imagePaths == null || accommodation.imagePaths!.isEmpty)
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
@@ -511,6 +407,226 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildImageCarousel(Accommodation accommodation, AppLocalizations l10n) {
+    final PageController pageController = PageController();
+    return ClipRRect(
+      borderRadius: const BorderRadius.vertical(
+        top: Radius.circular(12),
+      ),
+      child: Container(
+        height: 240,
+        width: double.infinity,
+        child: Stack(
+          children: [
+            PageView.builder(
+              controller: pageController,
+              itemCount: accommodation.imagePaths!.length,
+              itemBuilder: (context, index) {
+                return Stack(
+                  children: [
+                    Image.asset(
+                      accommodation.imagePaths![index],
+                      width: double.infinity,
+                      height: double.infinity,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          color: const Color(0xFF4CAF50).withOpacity(0.1),
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  accommodation.icon,
+                                  size: 60,
+                                  color: const Color(0xFF4CAF50),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  'Image ${index + 1} not found',
+                                  style: const TextStyle(
+                                    color: Color(0xFF4CAF50),
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                    // Gradient overlay for better text readability
+                    Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Colors.transparent,
+                            Colors.black.withOpacity(0.3),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+            // Price tag overlay
+            Positioned(
+              top: 12,
+              right: 12,
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 6,
+                ),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF388E3C),
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.3),
+                      spreadRadius: 1,
+                      blurRadius: 4,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      '\$${accommodation.price}',
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Text(
+                      '/${l10n.perNight}',
+                      style: const TextStyle(
+                        fontSize: 10,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            // Availability tag
+            Positioned(
+              bottom: 12,
+              left: 12,
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 8,
+                  vertical: 4,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.9),
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      spreadRadius: 1,
+                      blurRadius: 2,
+                      offset: const Offset(0, 1),
+                    ),
+                  ],
+                ),
+                child: Text(
+                  accommodation.availability,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF4CAF50),
+                  ),
+                ),
+              ),
+            ),
+            // Image indicators (dots)
+            if (accommodation.imagePaths!.length > 1)
+              Positioned(
+                bottom: 12,
+                right: 12,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.5),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.photo_camera,
+                        size: 12,
+                        color: Colors.white,
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        '${accommodation.imagePaths!.length}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            // Swipe indicators (left and right arrows)
+            if (accommodation.imagePaths!.length > 1) ...[
+              Positioned(
+                left: 12,
+                top: 0,
+                bottom: 0,
+                child: Center(
+                  child: Container(
+                    width: 32,
+                    height: 32,
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.3),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.chevron_left,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                right: 12,
+                top: 0,
+                bottom: 0,
+                child: Center(
+                  child: Container(
+                    width: 32,
+                    height: 32,
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.3),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.chevron_right,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ],
         ),
       ),
     );

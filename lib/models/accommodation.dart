@@ -9,7 +9,10 @@ class Accommodation {
   final IconData icon;
   final String availability;
   final AccommodationType type;
-  final String? imagePath; // Add image path field
+  final List<String>? imagePaths; // Changed from single imagePath to multiple imagePaths
+  
+  // Legacy support for single image path
+  String? get imagePath => imagePaths != null && imagePaths!.isNotEmpty ? imagePaths!.first : null;
 
   const Accommodation({
     required this.title,
@@ -18,6 +21,6 @@ class Accommodation {
     required this.icon,
     required this.availability,
     required this.type,
-    this.imagePath, // Make it optional
+    this.imagePaths, // Support for multiple images
   });
 }

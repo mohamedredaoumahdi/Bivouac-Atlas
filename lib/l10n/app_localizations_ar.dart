@@ -134,11 +134,11 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get selected => 'مختار';
 
-  // Accommodation Names
+  // Accommodation Names (updated with new cabins)
   @override
-  String get panoramicCabin => 'كوخ بانورامي';
+  String get panoramicCabin => 'كوخ صفاء الأطلس';
   @override
-  String get familyCabin => 'كوخ عائلي';
+  String get familyCabin => 'نزل نسيم الجبل';
   @override
   String get ecoNatureCabin => 'كوخ إيكو-طبيعي';
   @override
@@ -146,17 +146,17 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get comfortTent => 'خيمة مريحة';
 
-  // Accommodation Descriptions
+  // Accommodation Descriptions (updated with new descriptions)
   @override
-  String get panoramicCabinDesc => 'يقع على تلة هادئة، يوفر إطلالة بانورامية مذهلة على الجبال والوديان. مثالي للأزواج والباحثين عن الهدوء.';
+  String get panoramicCabinDesc => 'كوخ أنيق مثالي للأزواج أو المسافرين المنفردين الذين يسعون للراحة والهدوء وسط الجمال الطبيعي لآيت بوغميز. يشمل سرير مزدوج فاخر، تكييف هواء، طاولة طعام صغيرة، تلفزيون، واي فاي، إفطار مجاني، وإطلالات بانورامية على الجبال والحقول المحيطة.';
   @override
-  String get familyCabinDesc => 'مصمم للعائلات أو المجموعات، مجهز بأسرة متعددة ومنطقة جلوس مريحة.';
+  String get familyCabinDesc => 'مثالي للعائلات أو الأصدقاء الذين يسعون لملاذ جماعي في قلب الطبيعة البكر. يشمل 3 أسرة مريحة، تكييف هواء، طاولة طعام، تلفزيون، إنترنت، إفطار مجاني، وإطلالات مذهلة على وديان آيت بوغميز.';
   @override
   String get ecoNatureCabinDesc => 'أكواخ خشبية تمتزج مع الطبيعة، مصنوعة من مواد محلية صديقة للبيئة، بتصميم تقليدي دافئ.';
   @override
-  String get traditionalBerberTentDesc => 'مستوحاة من الخيام الأمازيغية، تتميز بالأثاث المحلي وأجواء تقليدية أصيلة.';
+  String get traditionalBerberTentDesc => 'خيمة تقليدية بتصميم مستوحى من التراث البربري، تقدم لكم دفء الضيافة المغربية في بيئة طبيعية فريدة. تشمل سرير مزدوج كبير، طاولة صغيرة، إطلالة مذهلة على جبال آيت بوغميز، وإفطار مجاني.';
   @override
-  String get comfortTentDesc => 'مجهزة بوسائد مريحة ومساحة أكبر، مع ستائر وعزل خفيف للراحة.';
+  String get comfortTentDesc => 'مثالية للمجموعات أو العائلات التي تسعى لتجربة تخييم مريحة وأصيلة. تشمل 3 أسرة، طاولة صغيرة، إطلالة على جبال الأطلس، وإفطار مجاني.';
 
   // Booking
   @override

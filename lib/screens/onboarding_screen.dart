@@ -59,49 +59,66 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   Widget _buildPage(OnboardingPage page) {
-    return Padding(
-      padding: const EdgeInsets.all(24),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const SizedBox(height: 50),
-          Container(
-            height: 300,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: const Color(0xFF4CAF50).withOpacity(0.1),
-            ),
-            child: Center(
-              child: Icon(
-                page.icon,
-                size: 120,
-                color: const Color(0xFF4CAF50),
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          children: [
+            // Flexible image container
+            Expanded(
+              flex: 3,
+              child: Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: const Color(0xFF4CAF50).withOpacity(0.1),
+                ),
+                child: Center(
+                  child: Icon(
+                    page.icon,
+                    size: MediaQuery.of(context).size.width * 0.25, // Responsive icon size
+                    color: const Color(0xFF4CAF50),
+                  ),
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 40),
-          Text(
-            page.title,
-            style: const TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF333333),
+            const SizedBox(height: 24),
+            // Flexible content section
+            Expanded(
+              flex: 2,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    page.title,
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.07, // Responsive font size
+                      fontWeight: FontWeight.bold,
+                      color: const Color(0xFF333333),
+                    ),
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 16),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Text(
+                        page.description,
+                        style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.width * 0.04, // Responsive font size
+                          color: const Color(0xFF666666),
+                          height: 1.6,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 20),
-          Text(
-            page.description,
-            style: const TextStyle(
-              fontSize: 16,
-              color: Color(0xFF666666),
-              height: 1.6,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 50),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -109,80 +126,80 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   Widget _buildBottomSection() {
     return Container(
       padding: const EdgeInsets.all(24),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(
-              _pages.length,
-              (index) => _buildDot(index),
-            ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, -5),
           ),
-          const SizedBox(height: 30),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              if (_currentPage > 0)
-                TextButton(
-                  onPressed: () => _pageController.previousPage(
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.easeInOut,
-                  ),
-                  child: const Text(
-                    'Previous',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                )
-              else
-                const SizedBox(width: 80),
-              if (_currentPage < _pages.length - 1)
-                ElevatedButton(
-                  onPressed: () => _pageController.nextPage(
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.easeInOut,
-                  ),
-                  child: const Text(
-                    'Next',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                )
-              else
-                ElevatedButton(
-                  onPressed: () => Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => const HomeScreen(),
-                    ),
-                  ),
-                  child: const Text(
-                    'Get Started',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ),
-            ],
-          ),
-          const SizedBox(height: 20),
-          if (_currentPage < _pages.length - 1)
-            TextButton(
-              onPressed: () => Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => const HomeScreen(),
-                ),
-              ),
-              child: const Text(
-                'Skip',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Color(0xFF666666),
-                ),
-              ),
-            ),
         ],
+      ),
+      child: SafeArea(
+        top: false,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Page indicators
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(
+                _pages.length,
+                (index) => _buildDot(index),
+              ),
+            ),
+            const SizedBox(height: 24),
+            // Navigation buttons
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // Previous button
+                if (_currentPage > 0)
+                  TextButton(
+                    onPressed: () => _pageController.previousPage(
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInOut,
+                    ),
+                    child: const Text(
+                      'Previous',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  )
+                else
+                  const SizedBox(width: 80),
+                
+                // Next/Get Started button
+                ElevatedButton(
+                  onPressed: _currentPage < _pages.length - 1
+                      ? () => _pageController.nextPage(
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeInOut,
+                          )
+                      : () => Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              builder: (context) => const HomeScreen(),
+                            ),
+                          ),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                  ),
+                  child: Text(
+                    _currentPage < _pages.length - 1 ? 'Next' : 'Get Started',
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildDot(int index) {
-    return Container(
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
       margin: const EdgeInsets.symmetric(horizontal: 4),
       width: _currentPage == index ? 12 : 8,
       height: _currentPage == index ? 12 : 8,
