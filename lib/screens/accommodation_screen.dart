@@ -38,6 +38,7 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
         icon: Icons.landscape,
         availability: '2 ${l10n.available}',
         type: AccommodationType.cabin,
+        imagePath: 'assets/images/cabins/CA1.jpeg',
       ),
       Accommodation(
         title: l10n.familyCabin,
@@ -46,6 +47,7 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
         icon: Icons.family_restroom,
         availability: '2 ${l10n.available}',
         type: AccommodationType.cabin,
+        imagePath: 'assets/images/cabins/CA2.jpeg',
       ),
       Accommodation(
         title: l10n.ecoNatureCabin,
@@ -54,6 +56,7 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
         icon: Icons.eco,
         availability: '2 ${l10n.available}',
         type: AccommodationType.cabin,
+        imagePath: 'assets/images/cabins/CA3.jpeg',
       ),
       // Tents
       Accommodation(
@@ -63,6 +66,7 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
         icon: Icons.temple_buddhist,
         availability: '6 ${l10n.available}',
         type: AccommodationType.tent,
+        imagePath: 'assets/images/tents/TN01.png',
       ),
       Accommodation(
         title: l10n.comfortTent,
@@ -71,6 +75,7 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
         icon: Icons.night_shelter,
         availability: '4 ${l10n.available}',
         type: AccommodationType.tent,
+        imagePath: 'assets/images/tents/TN02.jpeg',
       ),
     ];
   }
@@ -92,17 +97,45 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Selected Activity Summary
+            // Selected Activity Summary with Image
             Card(
               color: const Color(0xFF4CAF50).withOpacity(0.1),
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Row(
                   children: [
-                    Icon(
-                      widget.selectedActivity.icon,
-                      color: const Color(0xFF4CAF50),
-                      size: 30,
+                    Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: widget.selectedActivity.imagePath != null
+                          ? ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: Image.asset(
+                                widget.selectedActivity.imagePath!,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Container(
+                                    color: const Color(0xFF4CAF50).withOpacity(0.1),
+                                    child: Icon(
+                                      widget.selectedActivity.icon,
+                                      color: const Color(0xFF4CAF50),
+                                      size: 24,
+                                    ),
+                                  );
+                                },
+                              ),
+                            )
+                          : Container(
+                              color: const Color(0xFF4CAF50).withOpacity(0.1),
+                              child: Icon(
+                                widget.selectedActivity.icon,
+                                color: const Color(0xFF4CAF50),
+                                size: 24,
+                              ),
+                            ),
                     ),
                     const SizedBox(width: 12),
                     Expanded(
@@ -242,115 +275,241 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
                 ? Border.all(color: const Color(0xFF4CAF50), width: 2)
                 : null,
           ),
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        color: isSelected
-                            ? const Color(0xFF4CAF50)
-                            : const Color(0xFF4CAF50).withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Icon(
-                        accommodation.icon,
-                        color: isSelected ? Colors.white : const Color(0xFF4CAF50),
-                        size: 30,
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            accommodation.title,
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF333333),
-                            ),
-                          ),
-                          Text(
-                            accommodation.availability,
-                            style: const TextStyle(
-                              fontSize: 14,
-                              color: Color(0xFF666666),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Accommodation Image
+              if (accommodation.imagePath != null)
+                ClipRRect(
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(12),
+                  ),
+                  child: Container(
+                    height: 180,
+                    width: double.infinity,
+                    child: Stack(
                       children: [
-                        Text(
-                          '\$${accommodation.price}',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: isSelected
-                                ? const Color(0xFF4CAF50)
-                                : const Color(0xFF333333),
+                        Image.asset(
+                          accommodation.imagePath!,
+                          width: double.infinity,
+                          height: double.infinity,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Container(
+                              color: const Color(0xFF4CAF50).withOpacity(0.1),
+                              child: Icon(
+                                accommodation.icon,
+                                size: 60,
+                                color: const Color(0xFF4CAF50),
+                              ),
+                            );
+                          },
+                        ),
+                        // Gradient overlay for better text readability
+                        Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Colors.transparent,
+                                Colors.black.withOpacity(0.1),
+                              ],
+                            ),
                           ),
                         ),
-                        Text(
-                          l10n.perNight,
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color: Color(0xFF666666),
+                        // Price tag overlay
+                        Positioned(
+                          top: 12,
+                          right: 12,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 6,
+                            ),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF388E3C),
+                              borderRadius: BorderRadius.circular(16),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.3),
+                                  spreadRadius: 1,
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  '\$${accommodation.price}',
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                Text(
+                                  '/${l10n.perNight}',
+                                  style: const TextStyle(
+                                    fontSize: 10,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        // Availability tag
+                        Positioned(
+                          bottom: 12,
+                          left: 12,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.9),
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.1),
+                                  spreadRadius: 1,
+                                  blurRadius: 2,
+                                  offset: const Offset(0, 1),
+                                ),
+                              ],
+                            ),
+                            child: Text(
+                              accommodation.availability,
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF4CAF50),
+                              ),
+                            ),
                           ),
                         ),
                       ],
                     ),
+                  ),
+                ),
+              // Accommodation Details
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: isSelected
+                                ? const Color(0xFF4CAF50)
+                                : const Color(0xFF4CAF50).withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Icon(
+                            accommodation.icon,
+                            color: isSelected ? Colors.white : const Color(0xFF4CAF50),
+                            size: 24,
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                accommodation.title,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF333333),
+                                ),
+                              ),
+                              if (accommodation.imagePath == null)
+                                Text(
+                                  accommodation.availability,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xFF666666),
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
+                        if (accommodation.imagePath == null)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                '\$${accommodation.price}',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: isSelected
+                                      ? const Color(0xFF4CAF50)
+                                      : const Color(0xFF333333),
+                                ),
+                              ),
+                              Text(
+                                l10n.perNight,
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  color: Color(0xFF666666),
+                                ),
+                              ),
+                            ],
+                          ),
+                        if (isSelected) ...[
+                          const SizedBox(width: 8),
+                          const Icon(
+                            Icons.check_circle,
+                            color: Color(0xFF4CAF50),
+                            size: 24,
+                          ),
+                        ],
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      accommodation.description,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: Color(0xFF666666),
+                        height: 1.4,
+                      ),
+                    ),
                     if (isSelected) ...[
-                      const SizedBox(width: 8),
-                      const Icon(
-                        Icons.check_circle,
-                        color: Color(0xFF4CAF50),
-                        size: 24,
+                      const SizedBox(height: 12),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 6,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF4CAF50).withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          l10n.selected,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Color(0xFF4CAF50),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     ],
                   ],
                 ),
-                const SizedBox(height: 12),
-                Text(
-                  accommodation.description,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Color(0xFF666666),
-                    height: 1.4,
-                  ),
-                ),
-                if (isSelected) ...[
-                  const SizedBox(height: 12),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 6,
-                    ),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF4CAF50).withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Text(
-                      l10n.selected,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: Color(0xFF4CAF50),
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

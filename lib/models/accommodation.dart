@@ -9,6 +9,7 @@ class Accommodation {
   final IconData icon;
   final String availability;
   final AccommodationType type;
+  final String? imagePath; // Add image path field
 
   const Accommodation({
     required this.title,
@@ -17,5 +18,6 @@ class Accommodation {
     required this.icon,
     required this.availability,
     required this.type,
+    this.imagePath, // Make it optional
   });
 }
