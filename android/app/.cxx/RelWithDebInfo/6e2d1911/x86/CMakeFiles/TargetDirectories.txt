@@ -1,0 +1,2 @@
+/Users/MRO/Desktop/cursor/bivouac_atlas/android/app/.cxx/RelWithDebInfo/6e2d1911/x86/CMakeFiles/edit_cache.dir
+/Users/MRO/Desktop/cursor/bivouac_atlas/android/app/.cxx/RelWithDebInfo/6e2d1911/x86/CMakeFiles/rebuild_cache.dir
