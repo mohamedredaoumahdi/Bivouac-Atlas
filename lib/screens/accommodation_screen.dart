@@ -1,4 +1,5 @@
 import 'package:bivouac_atlas/l10n/app_localizations.dart';
+import 'package:bivouac_atlas/widgets/language_switch.dart';
 import 'package:flutter/material.dart';
 import '../models/activity.dart';
 import '../models/accommodation.dart';
@@ -100,8 +101,29 @@ class _AccommodationScreenState extends State<AccommodationScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(l10n.chooseAccommodation),
+        backgroundColor: Colors.white,
+        elevation: 2,
+        shadowColor: Colors.black.withOpacity(0.1),
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Color(0xFF333333),
+          ),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        title: Text(
+          l10n.chooseAccommodation,
+          style: const TextStyle(
+            color: Color(0xFF333333),
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         centerTitle: true,
+        actions: const [
+          LanguageSwitch(),
+          SizedBox(width: 8),
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),

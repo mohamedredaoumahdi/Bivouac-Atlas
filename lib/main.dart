@@ -70,10 +70,19 @@ class _BivouacAtlasAppState extends State<BivouacAtlasApp> {
       
       // AppBar Theme
       appBarTheme: const AppBarTheme(
-        backgroundColor: Color(0xFF4CAF50), // Natural Green
-        foregroundColor: Colors.white,
-        elevation: 0,
+        backgroundColor: Colors.white,
+        foregroundColor: Color(0xFF333333), // Dark Charcoal
+        elevation: 2,
+        shadowColor: Colors.black26,
         centerTitle: true,
+        titleTextStyle: TextStyle(
+          color: Color(0xFF333333), // Dark Charcoal
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
+        iconTheme: IconThemeData(
+          color: Color(0xFF333333), // Dark Charcoal
+        ),
       ),
       
       // Card Theme

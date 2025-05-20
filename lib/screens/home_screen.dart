@@ -120,167 +120,188 @@ class HomeScreen extends StatelessWidget {
     ];
 
     return Scaffold(
-      body: Column(
-        children: [
-          // Custom Header
-          Container(
-            padding: EdgeInsets.only(
-              top: MediaQuery.of(context).padding.top,
-              left: 16,
-              right: 16,
-              bottom: 24,
-            ),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  const Color(0xFF4CAF50), // Natural Green
-                  const Color(0xFF2E7D32),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        shadowColor: Colors.black.withOpacity(0.3),
+        leading: Container(
+          padding: const EdgeInsets.all(8),
+          child: Image.asset(
+            'assets/images/heroes/logo.jpg', // Updated path to your logo
+            fit: BoxFit.contain,
+            errorBuilder: (context, error, stackTrace) {
+              // Fallback to icon if logo image is not found
+              return Icon(
+                Icons.local_activity,
+                color: const Color(0xFF4CAF50),
+                size: 32,
+              );
+            },
+          ),
+        ),
+        title: Text(
+          l10n.appName,
+          style: const TextStyle(
+            color: Color(0xFF333333),
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
+        actions: const [
+          LanguageSwitch(),
+          SizedBox(width: 8),
+        ],
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header Section
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    const Color(0xFF4CAF50).withOpacity(0.1),
+                    const Color(0xFFF5F5DC).withOpacity(0.3),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: const Color(0xFF4CAF50).withOpacity(0.2),
+                  width: 1,
+                ),
+              ),
+              child: Column(
+                children: [
+                  Icon(
+                    Icons.local_activity,
+                    size: 50,
+                    color: const Color(0xFF4CAF50),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    l10n.chooseYourActivity,
+                    style: const TextStyle(
+                      color: Color(0xFF333333),
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    l10n.selectYourAdventure,
+                    style: const TextStyle(
+                      color: Color(0xFF757575),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
                 ],
               ),
             ),
-            child: Column(
-              children: [
-                // App Bar
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    const LanguageSwitch(),
-                  ],
-                ),
-                //const SizedBox(height: 20),
-                // Header Content
-                Icon(
-                  Icons.local_activity,
-                  size: 50,
-                  color: Colors.white,
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  l10n.chooseYourActivity,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                // const SizedBox(height: 8),
-                // Text(
-                //   l10n.selectYourAdventure,
-                //   style: const TextStyle(
-                //     color: Colors.white,
-                //     fontSize: 16,
-                //     fontWeight: FontWeight.w300,
-                //   ),
-                //   textAlign: TextAlign.center,
-                // ),
-              ],
+            const SizedBox(height: 32),
+            
+            // Available Activities Section
+            Text(
+              l10n.availableActivities,
+              style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                color: const Color(0xFF333333), // Dark Charcoal
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          // Content
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 8),
-                  Text(
-                    l10n.availableActivities,
-                    style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                      color: const Color(0xFF333333), // Dark Charcoal
-                      fontWeight: FontWeight.bold,
+            const SizedBox(height: 8),
+            Text(
+              l10n.activitiesDescription,
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                color: const Color(0xFF757575), // Cool Gray
+                height: 1.5,
+              ),
+            ),
+            const SizedBox(height: 20),
+            
+            // Activities List
+            ...activities.map((activity) => Container(
+              margin: const EdgeInsets.only(bottom: 16),
+              child: Card(
+                elevation: 3,
+                child: InkWell(
+                  onTap: () => _selectActivity(context, activity, l10n),
+                  borderRadius: BorderRadius.circular(12),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    l10n.activitiesDescription,
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: const Color(0xFF757575), // Cool Gray
-                      height: 1.5,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  // Activities List
-                  ...activities.map((activity) => Container(
-                    margin: const EdgeInsets.only(bottom: 16),
-                    child: Card(
-                      elevation: 3,
-                      child: InkWell(
-                        onTap: () => _selectActivity(context, activity, l10n),
-                        borderRadius: BorderRadius.circular(12),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Activity Image Carousel
+                        if (activity.imagePaths != null && activity.imagePaths!.isNotEmpty)
+                          _buildActivityImageCarousel(activity)
+                        else
+                          _buildActivityPlaceholder(activity),
+                        // Activity Details
+                        Padding(
+                          padding: const EdgeInsets.all(16),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // Activity Image Carousel
-                              if (activity.imagePaths != null && activity.imagePaths!.isNotEmpty)
-                                _buildActivityImageCarousel(activity)
-                              else
-                                _buildActivityPlaceholder(activity),
-                              // Activity Details
-                              Padding(
-                                padding: const EdgeInsets.all(16),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      activity.title,
-                                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                                        color: const Color(0xFF333333),
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      activity.description,
-                                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                        color: const Color(0xFF757575),
-                                        height: 1.4,
-                                      ),
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    const SizedBox(height: 12),
-                                    Row(
-                                      children: [
-                                        const Spacer(),
-                                        Text(
-                                          l10n.tapToSelect,
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            color: const Color(0xFF4CAF50).withOpacity(0.8),
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                        const SizedBox(width: 4),
-                                        Icon(
-                                          Icons.arrow_forward_ios,
-                                          size: 12,
-                                          color: const Color(0xFF4CAF50).withOpacity(0.8),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                              Text(
+                                activity.title,
+                                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                                  color: const Color(0xFF333333),
+                                  fontWeight: FontWeight.bold,
                                 ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                activity.description,
+                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                  color: const Color(0xFF757575),
+                                  height: 1.4,
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              const SizedBox(height: 12),
+                              Row(
+                                children: [
+                                  const Spacer(),
+                                  Text(
+                                    l10n.tapToSelect,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: const Color(0xFF4CAF50).withOpacity(0.8),
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Icon(
+                                    Icons.arrow_forward_ios,
+                                    size: 12,
+                                    color: const Color(0xFF4CAF50).withOpacity(0.8),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
                         ),
-                      ),
+                      ],
                     ),
-                  )).toList(),
-                  const SizedBox(height: 30),
-                ],
+                  ),
+                ),
               ),
-            ),
-          ),
-        ],
+            )).toList(),
+            const SizedBox(height: 30),
+          ],
+        ),
       ),
     );
   }

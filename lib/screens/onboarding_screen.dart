@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'home_screen.dart';
+import '../l10n/app_localizations.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -12,35 +13,56 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
-  final List<OnboardingPage> _pages = [
-    OnboardingPage(
-      title: 'Welcome to Bivouac Atlas',
-      description: 'Discover the authentic beauty of the Atlas Mountains in Morocco\'s Azilal region.',
-      icon: Icons.landscape,
-      image: 'assets/images/heroes/atlas_mountains_hero.jpg',
-    ),
-    OnboardingPage(
-      title: 'Authentic Experiences',
-      description: 'Choose from 10+ unique activities including waterfall hikes, village tours, and traditional cooking.',
-      icon: Icons.local_activity,
-      image: 'assets/images/activities/waterfall_hike.jpg',
-    ),
-    OnboardingPage(
-      title: 'Traditional Accommodation',
-      description: 'Stay in authentic Berber tents or eco-friendly wooden cabins surrounded by nature.',
-      icon: Icons.house,
-      image: 'assets/images/accommodation/berber_tent.jpg',
-    ),
-    OnboardingPage(
-      title: 'Sustainable Tourism',
-      description: 'Support local communities while enjoying an eco-friendly adventure in the mountains.',
-      icon: Icons.eco,
-      image: 'assets/images/heroes/bivouac_camp.jpg',
-    ),
-  ];
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Initialize pages here where we have access to l10n
+    final l10n = AppLocalizations.of(context)!;
+    
+    _pages = [
+      OnboardingPage(
+        title: l10n.onboardingTitle1,
+        description: l10n.onboardingDesc1,
+        icon: Icons.landscape,
+        image: 'assets/images/heroes/atlas_mountains_hero.jpg',
+        showLogo: true, // Show logo on first page
+      ),
+      OnboardingPage(
+        title: l10n.onboardingTitle2,
+        description: l10n.onboardingDesc2,
+        icon: Icons.local_activity,
+        image: 'assets/images/activities/waterfall_hike.jpg',
+      ),
+      OnboardingPage(
+        title: l10n.onboardingTitle3,
+        description: l10n.onboardingDesc3,
+        icon: Icons.house,
+        image: 'assets/images/accommodation/berber_tent.jpg',
+      ),
+      OnboardingPage(
+        title: l10n.onboardingTitle4,
+        description: l10n.onboardingDesc4,
+        icon: Icons.eco,
+        image: 'assets/images/heroes/bivouac_camp.jpg',
+      ),
+    ];
+  }
+
+  List<OnboardingPage> _pages = [];
 
   @override
   Widget build(BuildContext context) {
+    if (_pages.isEmpty) {
+      // Return loading indicator while pages are being initialized
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       body: Column(
         children: [
@@ -52,7 +74,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               itemBuilder: (context, index) => _buildPage(_pages[index]),
             ),
           ),
-          _buildBottomSection(),
+          _buildBottomSection(l10n),
         ],
       ),
     );
@@ -64,7 +86,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         padding: const EdgeInsets.all(24),
         child: Column(
           children: [
-            // Flexible image container
+            // Flexible image container with logo support
             Expanded(
               flex: 3,
               child: Container(
@@ -74,11 +96,58 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   color: const Color(0xFF4CAF50).withOpacity(0.1),
                 ),
                 child: Center(
-                  child: Icon(
-                    page.icon,
-                    size: MediaQuery.of(context).size.width * 0.25, // Responsive icon size
-                    color: const Color(0xFF4CAF50),
-                  ),
+                  child: page.showLogo
+                      ? Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            // App Logo
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.4,
+                              height: MediaQuery.of(context).size.width * 0.4,
+                              padding: const EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.1),
+                                    spreadRadius: 2,
+                                    blurRadius: 10,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ],
+                              ),
+                              child: Image.asset(
+                                'assets/images/heroes/logo.jpg',
+                                fit: BoxFit.contain,
+                                errorBuilder: (context, error, stackTrace) {
+                                  // Fallback to icon if logo is not found
+                                  return Icon(
+                                    page.icon,
+                                    size: MediaQuery.of(context).size.width * 0.2,
+                                    color: const Color(0xFF4CAF50),
+                                  );
+                                },
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                            // Welcome text for logo page
+                            Text(
+                              AppLocalizations.of(context)!.welcome,
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.06,
+                                fontWeight: FontWeight.w300,
+                                color: const Color(0xFF757575),
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        )
+                      : Icon(
+                          page.icon,
+                          size: MediaQuery.of(context).size.width * 0.25,
+                          color: const Color(0xFF4CAF50),
+                        ),
                 ),
               ),
             ),
@@ -92,7 +161,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   Text(
                     page.title,
                     style: TextStyle(
-                      fontSize: MediaQuery.of(context).size.width * 0.07, // Responsive font size
+                      fontSize: MediaQuery.of(context).size.width * 0.07,
                       fontWeight: FontWeight.bold,
                       color: const Color(0xFF333333),
                     ),
@@ -106,7 +175,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       child: Text(
                         page.description,
                         style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.04, // Responsive font size
+                          fontSize: MediaQuery.of(context).size.width * 0.04,
                           color: const Color(0xFF666666),
                           height: 1.6,
                         ),
@@ -123,18 +192,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
-  Widget _buildBottomSection() {
+  Widget _buildBottomSection(AppLocalizations l10n) {
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, -5),
-          ),
-        ],
+        // boxShadow: [
+        //   BoxShadow(
+        //     color: Colors.black.withOpacity(0.05),
+        //     blurRadius: 10,
+        //     offset: const Offset(0, -5),
+        //   ),
+        // ],
       ),
       child: SafeArea(
         top: false,
@@ -161,9 +230,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       duration: const Duration(milliseconds: 300),
                       curve: Curves.easeInOut,
                     ),
-                    child: const Text(
-                      'Previous',
-                      style: TextStyle(fontSize: 16),
+                    child: Text(
+                      l10n.previous,
+                      style: const TextStyle(fontSize: 16),
                     ),
                   )
                 else
@@ -185,7 +254,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                   ),
                   child: Text(
-                    _currentPage < _pages.length - 1 ? 'Next' : 'Get Started',
+                    _currentPage < _pages.length - 1 ? l10n.next : l10n.getStarted,
                     style: const TextStyle(fontSize: 16),
                   ),
                 ),
@@ -224,11 +293,13 @@ class OnboardingPage {
   final String description;
   final IconData icon;
   final String image;
+  final bool showLogo;
 
   OnboardingPage({
     required this.title,
     required this.description,
     required this.icon,
     required this.image,
+    this.showLogo = false,
   });
 }

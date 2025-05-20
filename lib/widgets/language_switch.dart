@@ -3,17 +3,23 @@ import '../main.dart';
 import '../l10n/app_localizations.dart';
 
 class LanguageSwitch extends StatelessWidget {
-  const LanguageSwitch({super.key});
+  final bool isDarkBackground;
+  
+  const LanguageSwitch({
+    super.key,
+    this.isDarkBackground = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final currentLocale = Localizations.localeOf(context);
+    final iconColor = isDarkBackground ? Colors.white : const Color(0xFF4CAF50);
     
     return PopupMenuButton<Locale>(
-      icon: const Icon(
+      icon: Icon(
         Icons.language,
-        color: Colors.white,
+        color: iconColor,
       ),
       tooltip: l10n.changeLanguage,
       onSelected: (Locale locale) {
@@ -35,9 +41,15 @@ class LanguageSwitch extends StatelessWidget {
               const Icon(
                 Icons.language,
                 size: 18,
+                color: Color(0xFF757575),
               ),
               const SizedBox(width: 8),
-              Text(l10n.english),
+              Text(
+                l10n.english,
+                style: const TextStyle(
+                  color: Color(0xFF333333),
+                ),
+              ),
             ],
           ),
         ),
@@ -56,9 +68,15 @@ class LanguageSwitch extends StatelessWidget {
               const Icon(
                 Icons.language,
                 size: 18,
+                color: Color(0xFF757575),
               ),
               const SizedBox(width: 8),
-              Text(l10n.arabic),
+              Text(
+                l10n.arabic,
+                style: const TextStyle(
+                  color: Color(0xFF333333),
+                ),
+              ),
             ],
           ),
         ),
